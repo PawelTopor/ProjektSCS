@@ -4,6 +4,7 @@ from Crypto.Protocol.KDF import PBKDF2
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 # from Crypto.Random import get_random_bytes
+from Crypto.PublicKey import RSA
 
 
 PORT = 8080
@@ -46,12 +47,21 @@ def create_connection():
 
 
 if __name__== "__main__":
-    connection = create_connection()
-    key = generateKey()
-    message = get_message()
-    data = CBC_encryption(key, message)
-    send_data(data, connection)
+    # connection = create_connection()
+    # key = generateKey()
+    # message = get_message()
+    # data = CBC_encryption(key, message)
+    # send_data(data, connection)
 
+
+    key = RSA.generate(2048)
+    f = open('mykey.pem', 'wb')
+    print(key.publickey().export_key())
+    f.write(key.export_key('PEM'))
+    f.close()
+
+    f = open('mykey.pem', 'r')
+    key = RSA.import_key(f.read())
 
 
 
