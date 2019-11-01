@@ -1,12 +1,13 @@
 import socket
 import time
+import sys
 # from Crypto.Protocol.KDF import PBKDF2
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
 
 
 PORT = 8080
-host = 'localhost'
+host = sys.argv[1]
 
 
 def generate_key_pair():
