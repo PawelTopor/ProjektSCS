@@ -8,7 +8,7 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 from Crypto.Util.Padding import unpad
 import socket
-
+import time
 PORT = 8080
 HOST = ''
 available_chiphers = ('CBC', 'CFB', 'EAX')
@@ -179,6 +179,7 @@ if __name__ == "__main__":
     client_connection = listen_for_client()
 
     print("Waiting for cipher mode from client...")
+    start_time = time.time()
     cipher_mode = client_connection.recv(3).decode()
     print("Client choosed {}.Sending my public key to client...".format(cipher_mode))
     client_connection.send(server_public_key)
@@ -189,5 +190,8 @@ if __name__ == "__main__":
         decode_CFB(*handle_symetric_key_transfer(client_connection))
     elif cipher_mode == 'RSA':
         handle_asymetric_key_transfer(client_connection, int(length_RSA/8))
-    client_connection.send("Completed!!!".encode())
+    else:
+        print("Not such method")
+    print("Execution time for {} was {}".format(cipher_mode, time.time() - start_time))
+    # client_connection.send("Completed!!!".encode())
     print("Completed!!!")
