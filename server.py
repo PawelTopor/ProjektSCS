@@ -141,39 +141,19 @@ def handle_asymetric_key_transfer(client_connection, RSA_length):
     with open("received_" + filename, 'wb') as fl:
         for i in range(0, len(data), RSA_length):
             fl.write(decode_RSA(data[i:i+RSA_length]))
-        # recived = client_connection.recv(RSA_length)
-        # while recived:
-        #     data = decode_RSA(recived)
-        #     fl.write(data)
-        #     recived = client_connection.recv(RSA_length)
-    # client_connection.shutdown(1)
 
 if __name__ == "__main__":
     print("SFTP server V 0.1")
 
-    #TODO: informacje o połączeniu itd, dopiero potem ten wybór kluczy (tak myśle, że spoko bedzie)
 
-    print("Choose your asymmetric key generation method by typing 1, 2 or 3:")
-    print("1. RSA \n2. ECC (NIST P-256, P-384 and P-521 curve only) \n3. ElGamal (legacy)")
-
-    asymetric_option = input()
-
-    # Wybór klucza asymetrycznego
-    if asymetric_option == str(1):
-        print("Choose length for RSA key (1024 or 2048):")
-        while True:
-            length_RSA = int(input())
-            if (length_RSA == 1024) | (length_RSA == 2048):
-                key_RSA(length_RSA)
-                break
-            else:
-                print("You have chosen the wrong length.")
-
-    elif asymetric_option == str(2):
-        print("You choosed ECC but this option doesn't work no more.")
-
-    elif asymetric_option == str(3):
-        print("You choosed ECC but this option doesn't work no more.")
+    print("Choose length for RSA key (1024 or 2048):")
+    while True:
+        length_RSA = int(input())
+        if (length_RSA == 1024) | (length_RSA == 2048):
+            key_RSA(length_RSA)
+            break
+        else:
+            print("You have chosen the wrong length.")
 
     server_public_key = open_server_public_key()
     client_connection = listen_for_client()
@@ -193,5 +173,4 @@ if __name__ == "__main__":
     else:
         print("Not such method")
     print("Execution time for {} was {}".format(cipher_mode, time.time() - start_time))
-    # client_connection.send("Completed!!!".encode())
     print("Completed!!!")
